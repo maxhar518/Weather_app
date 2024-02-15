@@ -2,12 +2,8 @@
 const cityForm = document.querySelector('#cityForm')
 const city = document.querySelector('#city')
 const apiKey = `55ff5b9f1aa556e25d9767c01329b185`;
-const centigrade = document.querySelector('#centigrade')
 const message = document.querySelector('#message')
-const logo = document.querySelector('#logo')
-const wind = document.querySelector('#wind')
-const clouds = document.querySelector('#clouds')
-const iconElement = document.querySelector('#iconElement')
+const container = document.querySelector('#container')
 
 const getWeather = async () => {
     try {
@@ -35,12 +31,18 @@ cityForm.addEventListener("submit", async (event) => {
 
 
 const showWeatherData = (info) => {
-    
-    centigrade.innerText = `Temperature:${info.main.temp}°C`
-    logo.innerText = `Humidity${info.main.humidity}%`
-    wind.innerText = `Wind Speed: ${info.wind.speed}km/h`
-    clouds.innerText = `Clouds: ${info.clouds.all}%`
+    var myDate =new Date(`${info.dt}`*1000)
+    let a =myDate.toLocaleString()
     const iconCode = info.weather[0].icon;
     iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`
-    iconElement.src = iconUrl;
+    const imgUrl = iconUrl
+    container.innerHTML = `
+    <p>  ${info.weather[0].main}</p>
+    <img src="${imgUrl}"></img>
+    <p>Date & Time: ${a}</p>
+    <p> Temperature:${info.main.temp}°C</p> 
+    <p>Humidity: ${info.main.humidity}%</p>
+    <p>Wind Speed: ${info.wind.speed}km/h</p> 
+    <p>Clouds: ${info.clouds.all}%</p>
+    `
 }
